@@ -11,7 +11,7 @@ Theory
 Introduction to IC Design, Components and Terminology
 Good Floorplan Vs Bad Floorplan and Introduction to Library cells and placement
 Routing
-Lab
+Lab:
 Lab 1: Getting Familiar with Openlane EDA tools
 Lab 2: Steps of run floorplan and placement using OpenLANE
 Lab 3: Inverter Characterization using Sky130 Model Files
