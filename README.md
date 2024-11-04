@@ -21,3 +21,8 @@ Lastly, Lab 5 walks users through the last stages to produce a GDSII file, which
 
 The goal of this roadmap is to equip users with the theoretical and practical knowledge they need to comprehend and carry out the entire IC design workflow, from theory to GDSII creation.
 
+**Concerning the project:**
+Using the OpenLane ASIC pipeline, we will examine how to create an Application Specific Integrated Circuit (ASIC) from the Register Transfer Level (RTL) to the Graphical Data System (GDS) file. Starting with an RTL file and ending with a GDS file, the procedure comprises several crucial stages.
+![openlane flow 1](https://github.com/user-attachments/assets/aafcd6f7-9528-4a28-9a1f-408277c2116a)
+
+
