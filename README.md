@@ -43,7 +43,7 @@ a.RTL (Register Transfer Level): This is the initial stage of the digital design
 
 b.PDK (Process Design Kit): The PDK contains the design rules, standard cells, and manufacturing-specific data required to implement the design on a particular semiconductor process. It guides how the design will be physically realized on silicon.
 
-2. Flow Stages (Middle Section): 
+2. Flow Stages (Middle Section):   
 a.Synth (Synthesis): This step translates the RTL code into a gate-level netlist, which consists of logic gates (AND, OR, NOT, etc.) interconnected to perform the desired functionality. This process uses standard cells provided by the PDK.
 
 b.FP + PP (Floor/Power Planning):
@@ -61,14 +61,20 @@ f.Sign Off: This final stage involves verifying that the design meets all specif
 3. Output: GDSII
 The final output of the flow is the GDSII file, which contains the complete layout of the ASIC. This file is sent to the fabrication plant (foundry) to manufacture the physical chip.
 
-5. Summary of Steps (Right Section):
+4. Summary of Steps (Right Section):
 
 Synthesis: Converts RTL code to a gate-level netlist.
+
 Floor/Power Planning: Establishes the layout and power distribution of the chip.
+
 Placement: Arranges the standard cells within the floor plan.
+
 Clock Tree Synthesis: Creates a clock network with minimal skew.
+
 Routing: Connects components using metal wires.
+
 Sign Off: Validates that the design is ready for manufacturing.
+
 Overall Explanation:
 This flow represents the journey of digital ASIC design from an abstract, high-level representation (RTL) to a physical layout (GDSII) ready for silicon fabrication.
 The PDK provides essential manufacturing rules and data to ensure the design is feasible and can be manufactured correctly.
@@ -86,7 +92,7 @@ Using the OpenLane ASIC pipeline, we will examine how to create an Application S
 **Required tools (ASIC Flow):**
 Any ASIC implementation revolves around Place and Route (PnR), and Openlane flow includes several essential open-source tools that carry out each of the PnR steps. The steps and corresponding tools that Openlane calls for the specified features are listed below:
 
-1.Synthesis
+1.Synthesis:
 
 a.Generating gate-level netlist (yosys).
 
@@ -94,7 +100,7 @@ b.Performing cell mapping (abc).
 
 c.Performing pre-layout STA (OpenSTA).
 
-2.Floorplanning
+2.Floorplanning:
 
 a.Defining the core area for the macro as well as the cell sites and the tracks (init_fp).
 
@@ -102,25 +108,36 @@ b.Placing the macro input and output ports (ioplacer).
 
 c.Generating the power distribution network (pdn).
 
-3.Placement
+3.Placement:
 
 a.Performing global placement (RePLace).
 
 b.Performing detailed placement to legalize the globally placed components (OpenDP).
 
-4.Clock Tree Synthesis (CTS)
+4.Clock Tree Synthesis (CTS):
 
 a.Synthesizing the clock tree (TritonCTS).
 
-5.Routing
+5.Routing:
 
 a.Performing global routing to generate a guide file for the detailed router (FastRoute).
 
 b.Performing detailed routing (TritonRoute)
 
-6.GDSII Generation/layout
+6.GDSII Generation/layout:
 
 a.Streaming out the final GDSII layout file from the router def (Magic).
+
+**How to start this project:**
+
+Requirements:
+The session goes beyond Openlane and an Ubuntu (only) machine. The user must setup a virtual machine on Windows and run the "vsdworkshop" image file; on Ubuntu, they must install "VirtualBox" and adhere to the instructions in the lab instruction file. After registering, students get access to their accounts and all required materials.
+
+**Setting up the vdsworkshop:**
+All necessary files and tools are installed along with the 'vsdworkshop' operating system. If you want to install it manually, click the link below:
+**https://github.com/nickson-jose/openlane_build_script**
+
+
 
 
 
