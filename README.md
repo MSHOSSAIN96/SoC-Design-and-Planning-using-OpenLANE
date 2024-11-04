@@ -137,6 +137,13 @@ The session goes beyond Openlane and an Ubuntu (only) machine. The user must set
 All necessary files and tools are installed along with the 'vsdworkshop' operating system. If you want to install it manually, click the link below:
 **https://github.com/nickson-jose/openlane_build_script**
 
+**A roadmap of ASIC design flow:**
+Register Transfer Language (RTL) to Graphic Data System II (GDSII), a comprehensive design path in integrated circuit (IC) development, transforms a high-level hardware description into a physical layout appropriate for foundry fabrication. The RTL to GDSII process is a multi-phase process that begins with the RTL design, where the functionality of the circuit is coded into the hardware description languages using Verilog or VHDL. Synthesis, the following stage of the procedure, converts this RTL code into a gate-level netlist. After creating a netlist, the physical design process moves on to floorplanning, placement, clock-tree synthesis (CTS), and routing. After placement and routing, signoff checks are carried out, including Design Rule Checking (DRC), Layout Versus Schematic (LVS) checks, and Static Timing Analysis (STA).
+
+![F4_Simple_ASICS_flow_chart](https://github.com/user-attachments/assets/d3438eeb-a8cc-4975-815d-19500459f271)
+
+
+
 
 
 
