@@ -142,6 +142,36 @@ Register Transfer Language (RTL) to Graphic Data System II (GDSII), a comprehens
 
 ![F4_Simple_ASICS_flow_chart](https://github.com/user-attachments/assets/d3438eeb-a8cc-4975-815d-19500459f271)
 
+**The concept of IC Components, Design, and Terminology:**
+
+Integrated circuit (IC) design is the process of joining circuit components to perform a predetermined intended purpose. Almost every electrical device you use has an integrated circuit (IC). Much has changed since Gordon Moore discovered in 1965 that the number of transistors in an integrated circuit (IC) doubles every two years (Moore's Law (opens in a new tab)). The majority of ICs in use today are a combination of the two primary IC design domains, digital and analog. IC Design Process: The IC design pipeline involves a number of steps, including:
+
+1.Architecture design
+
+2.Logic design
+
+3.Physical design
+
+4.Physical verification
+
+5.Final step- The Signoff
+
+![F5_IC_Design flow](https://github.com/user-attachments/assets/b36d64d8-8e1e-4ea3-adb5-223c7f7b8fd5)
+
+1.Architecture design: 
+The first step in IC design is architecture design, which establishes the high-level organization and operation of the integrated circuit. Because it lays out the IC's blueprint, defining its primary functional pieces, how they will interact, and how it will function, this phase is essential. It's comparable to creating a building's architectural blueprints before to construction.
+
+2.Logic design:
+Here, macro-level building blocks are assembled and connected to provide the IC's required functionality. Typically, pre-existing parts such as memory, processors, and sensors are used. High-level functional descriptions of circuit elements are decomposed into the corresponding low-level circuit components. This process is automated with software called logic synthesis. The set of devices is simulated in order to verify that the design is functional. Depending on the required level of modeling detail, either an analog circuit simulator or a digital logic simulator will be used.
+
+3.Physical Design:
+In this step, a layout for the connected forms of the circuit components is created. To determine the location, shape, and size of the modules inside a chip, a floorplan is first developed. Determining where to place the components and avoiding issues that could restrict speed and performance are made easier by analyzing the chip area, latency, congestion, etc. The core of the ASIC design flow, PnR, is composed of multiple stages. The following is a list of the procedures and related resources that OpenLANE uses:
+
+a.Synthesis: establishes pre-layout STA, maps cells, and generates a gate-level netlist.The inputs are RTL design, library (standard cells and macros), and constraints (design goals, expected temporal behavior, and environment).
+
+b.
+
+
 
 
 
