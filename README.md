@@ -169,7 +169,18 @@ In this step, a layout for the connected forms of the circuit components is crea
 
 a.Synthesis: establishes pre-layout STA, maps cells, and generates a gate-level netlist.The inputs are RTL design, library (standard cells and macros), and constraints (design goals, expected temporal behavior, and environment).
 
-b.
+![F6_Synthesis](https://github.com/user-attachments/assets/f6a8ce1d-3338-4eef-8124-5aea898e4f7a)
+
+b.Floorplanning: At this stage, important choices are made on how to organize the system's blocks on the chip, assign memory, macros, standard cells, and other resources, and split the system up into blocks and subsystems. Floorplanning includes IO cell layout and power planning.
+
+![F7_Floorplanning](https://github.com/user-attachments/assets/2f6e5240-b303-4a95-b93b-566e89208b15)
+
+c.Placement: The placement phases dictate the stdcell location in the design. In this step, the wire length is estimated, and the wires are positioned while taking that estimate into consideration. To complete the entire placement stage, there are three steps in the flow. Global placement, legalization, and detailed placement are the usual placement flows.
+
+![F8_Placement](https://github.com/user-attachments/assets/ff4caeef-1494-4688-882e-1feb982008ca)
+
+
+
 
 
 
