@@ -179,6 +179,72 @@ c.Placement: The placement phases dictate the stdcell location in the design. In
 
 ![F8_Placement](https://github.com/user-attachments/assets/ff4caeef-1494-4688-882e-1feb982008ca)
 
+d.Clock tree synthesis: The clock network must be wired and the clock tree netlist, which contains buffers, must be implemented during the clock-tree synthesis (CTS) step. The goal of this stage is to minimize skew and power dissipation. The clock can be distributed around the network in a number of ways; here are some examples: Grids, ad hoc, hybrid, H-tree, etc. 
+
+![F9_CTS](https://github.com/user-attachments/assets/b4531533-6eef-4be6-8f47-62f6131f01b5)
+
+e.Routing: Routing creates the wire configuration for each net, with the exception of the clock and power supply. Details routing and global routing are the two different forms of routing. To create a routing plan for a particular net, the entire routing region is split up into rectangular tiles in the planning stage called global routing. The detailed router determines the actual routing of each pre-assigned global tile, which is where the actual wires and vias are formed.
+
+![F10_Routing](https://github.com/user-attachments/assets/30640ded-6ca0-446c-a0c7-6ea5da587599)
+
+**A Comparison of Good and Bad Floor Plans and an Overview of Library Cells and Palcement**
+Chip Floorplanning Considerations Aspect ratio and utilization factor: In order to compute the Utilization Factor and Aspect Ratio, we must first ascertain the height and width of the core and die regions.
+All of a chip's logic cells and other components are found in the core. The logic of a chip is located there.I/O-related components are positioned in the die, which encircles the core region.
+
+![F11_Good_floorplan_bad_floorplan](https://github.com/user-attachments/assets/c876bec3-d798-4109-8dbe-88c546bd2114)
+
+The design's netlist, which takes into account the number of components needed to execute the design logic, will determine the size of the core region. As can be seen in the image above, the height and width of the die area are therefore determined by the size of the core region. Consider a netlist that contains two flip-flops and two logic gates.
+
+![F12_FF's_Logic_gates](https://github.com/user-attachments/assets/4359afea-d3e7-4e84-829a-5a9992bd4b9e)
+
+if the surface area of each component is one square unit. Our netlist consists of four components, hence the core area will require at least four square units.
+
+![F13_Surface_area _core_area](https://github.com/user-attachments/assets/65812701-ac1f-44ae-8169-7f73465527c9)
+
+Utilization Factor: The utilization factor is the ratio of the netlist's core area to the core's total area. In an efficient floor plan, the Utilization Factor should be less than 1 since if it reaches 1, there won't be any more space for logic to be added, which leads to a subpar floor plan.
+
+**Utilization Factor = (Area occupied by netlist / Total core area)**
+Aspect ratio: The ratio of aspects The aspect ratio is the core's height-to-width proportion. When the aspect ratio is 1, the core is considered square in shape. If the aspect ratio is not 1, the core will have a rectangular shape.
+
+**Aspect Ratio = (Height of the core / Width of the core)**
+
+![F14_FF's_Logic_gates](https://github.com/user-attachments/assets/d40630cb-752b-4a13-aa5c-f78f4d394b71)
+
+In this scenario, when calculated
+Utilization factor = (4 sq units) / (4 sq units) = 1
+Aspect Ratio = (2 units) / (2 units) = 1 which is in a square shape core.
+
+![F15_rectangular_shape](https://github.com/user-attachments/assets/f9e21349-ec55-4b50-9a99-69558713b537)
+
+In this scenario, when calculated
+Utilization factor = (4 squints) / (8 squints) = 0.5
+Aspect Ratio = (2 units)/(4 units) = 0.5 which is in a rectangular shape core.
+
+**Decoupling Capacitor:**
+The nMOS and pMOS are performed simultaneously in an input transition region of the IC. There will be a sizable short circuit current during that time. If numerous of these cells are lined up in a row and switch at the same time, a sizable current will be required. This high current requirement, sometimes referred to as ground bounce or voltage droop, may cause the ground voltage to rise or the VDD to decrease. To address this issue, decoupling capacitors or decap cells are placed adjacent to these power-hungry parts.Currently, when switching activities occur, the decoupling capacitors quickly drain to supply these components with the necessary power. When the switching is switched off, the capacitors recharge, ensuring that crucial circuit components receive a consistent and reliable power supply. In order to preserve and enhance the power distribution network, decap cells act as charge reservoirs. Decaps are essential in circuit design to maintain stable operation and prevent performance issues caused by changing power supply conditions.
+
+![F16_Decoupling_Capacitors](https://github.com/user-attachments/assets/e0f9eb17-4fc5-48c5-84df-c9f4a3eca9e3)
+
+Power Planning/Pre-Placement: Controlling the distribution of electricity across various blocks requires more than merely decoupling capacitors. Increased chip size and leakage power are two drawbacks of de-cap cells. Therefore, power planning is used to provide electricity effectively. In areas of the chip with high switching activity, two effects can occur: voltage drop and ground bounce. Voltage Drop: When multiple cells simultaneously flip from 0 to 1, a significant power demand results. Insufficient power from a single source necessitates a drop in input voltage for these cells. This issue gets worse as the voltage level falls below the noise margin.When multiple cells flip from 1 to 0 at the same time, power is dumped to the ground pin, causing a ground bounce. Because of this, the ground voltage briefly increases instead of remaining at zero. This results in a phenomenon known as "ground bounce." A problem arises when the voltage level exceeds the noise margin.
+
+![F17_Power_Planning](https://github.com/user-attachments/assets/f39e85c3-fa85-451b-9d0f-3329ff1eecf9)
+
+Library binding and placements: Each component in the netlist, including the AND, OR, and FF gates, has a square or rectangular physical dimension, which means it has width and height. These components are in the form of boxes at the library. In addition to dimensions, the library provides temporal (delay) information for these boxes or components. The library also includes information about when the output of the component is changed. Additionally, there are multiple variants of the same component, each with distinct features (size/delay).
+
+Placement: Placement is the procedure by which the tool arranges all of the standard cells found in the netlist in the core region. During placement, the tool also optimizes the design. The tool can also be used to route trails. Placement's primary objective is to optimize timing, area, and power. 2. Reduce traffic and the areas that cause it. 3. Pin density and minimum cell density.
+
+Three steps are involved in placement: 1. Worldwide Positioning 2. Legalization 3. Placement of Details.
+
+**Routing**
+![F18_Routing](https://github.com/user-attachments/assets/c652af4b-8d8b-4a76-b46e-e39cfbca48a3)
+
+
+
+
+
+
+
+
 
 
 
