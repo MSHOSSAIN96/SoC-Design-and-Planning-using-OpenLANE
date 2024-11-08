@@ -250,7 +250,8 @@ The picorv32a design is represented by the green area in the above diagram. Wher
 
 Useful Linux Command:
 
-```pwd: It displays the current working directory and its path.
+```
+pwd: It displays the current working directory and its path.
 cd: Using this command we can move in both ways in the directory tree.
 ls: It lists all the sub-directories and files present in the current directory.
 mkdir: Using this command, we can create a new directory.
@@ -313,7 +314,106 @@ For more information, look at the results directory in synthesis.
 
 To achieve an error-free floorplanning process, designers need to be aware of specific factors, referred to as switches, that might have a big influence on the floorplan. Aspect ratio and usage factor, for example, are two crucial choices. Before beginning the floorplanning phase, designers must confirm that these criteria meet the project requirements. The file README.md in the openlane configuration displays the different variables of the design flow. The path is shown below:
 
-```/home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/configuration
+```
+/home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/configuration
+```
+![7](https://github.com/user-attachments/assets/a37c9832-de55-4d9a-ad74-5a4f33e27971)
+
+The image shows different types of switches in floorplan stage after running floorplan.
+
+```
+run_floorplan
+```
+
+![10](https://github.com/user-attachments/assets/0b7d9c31-d696-4772-bd28-f218279feba3)
+
+
+The image in the following section illustrates various types of switches involved in the floorplanning phase and their description.
+
+![12](https://github.com/user-attachments/assets/4c6b2000-7065-4425-a0aa-3859c665289a)
+
+The default value of these variables is set in the floorplan.tcl file of openlane configuration. The file path is the same as for README.md and is shown below:
+
+![14](https://github.com/user-attachments/assets/f3def74e-fdac-4e3f-a8a9-0fe770bfc7ac)
+
+n the figure above several floorplan variables are set by default. One important variable to mention here is FP_IO_MODE below:
+
+```
+set ::env(FP_IO_MODE) 1; # 0 matching mode - 1 random equidistant mode
+```
+which is set as '1' when IO pins are random equidistant.
+
+Floorplan results After floorplan execution we go to the runs folder of picorv32a and open the latest date file name. Here one can check the implemented floorplan variables from the logs. The file name ioPlacer.log will give metal layers number for verical and horizontal IO pins. The path to the file is below:
+
+![15](https://github.com/user-attachments/assets/16dabdfa-c4f0-41e2-875e-0ac192027bd8)
+
+![16](https://github.com/user-attachments/assets/405016bf-cc3a-4d8d-b8e3-a2d0e6c73f6a)
+
+Recall that the floorplan will have FP_IO_VMETAL 5 if FP_IO_VMETAL was set to 4, and the floorplan will have FP_IO_HMETAL 4 if FP_IO_HMETAL was set to 3.
+
+![17](https://github.com/user-attachments/assets/d5487022-9aa5-4a13-807f-cbeb6bb490ed)
+
+Layout view in Magic:
+
+When the floorplaning is completed, to view the results go to the path as shown below:
+
+![18](https://github.com/user-attachments/assets/fe2b94ca-5dc2-44a7-a470-7e77b01cf338)
+
+open the design exchange file (.def): These results are useful. For example: we can see the die area:
+
+![19](https://github.com/user-attachments/assets/2c7b0dc3-e345-4c02-b292-48df5eeeefcc)
+
+Now, to open this ".def" file in magic, use the following command:
+
+```
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def
+```
+
+![21](https://github.com/user-attachments/assets/1fa5c536-a5d5-4380-8a51-d053b62fd32e)
+
+Design Alignment Instructions:
+
+Centering the design:
+1. Press s to select the entire design
+2. Press v to vertically align it to the middle of the screen.
+Zooming In on a specific area:
+1. Left click and drag to select the desired region.
+2. Right-click to bring up the context menu.
+3. Press Z to zoom in on the selected area.
+Getting Details of a Cell:
+1. Move your cursor to the cell of interest.
+2. Press S to select the cell.
+3. In the tkcon window, enter the command "what" to display cell details.
+
+![Screenshot 2024-11-08 171805](https://github.com/user-attachments/assets/c3379c3d-d355-42b3-8876-18c35595f911)
+
+![22](https://github.com/user-attachments/assets/45451704-a81b-42a6-85da-1eabfcd92c16)
+
+![23](https://github.com/user-attachments/assets/377e2d0d-45d3-49e1-88ca-936a343acf66)
+
+![24](https://github.com/user-attachments/assets/05c65418-894d-4407-85f8-eb65d6d790c1)
+
+Placement To initiate the placement process, use the following command:
+```
+run_placement
+```
+During placement execution the reduction of half parameter wire length is the main focus. The placement is stop when the overflow is converged After the Placement is done. To view the results Go to the following location:
+```
+/home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/10-08_13-18/results/placement
+```
+And then we can see 'picorv32a.placement.def' file. To open it using MAGIC use the following command:
+
+```
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def
+```
+
+![25](https://github.com/user-attachments/assets/1bc018e7-ecf3-44da-a69c-b649c4a18cda)
+
+![26](https://github.com/user-attachments/assets/85a21f9a-4690-4f73-a870-ac176a2790af)
+
+
+
+
 
 
 
