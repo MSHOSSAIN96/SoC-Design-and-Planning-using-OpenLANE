@@ -9,7 +9,7 @@ I make sure users are prepared to follow the structured roadmap by outlining the
 I explore the methods and factors needed for efficient signal routing in IC designs in the Routing section. A number of labs are included in the project to foster familiarity and practical skills.
 
 In order to help users become accustomed to the environment, 
-Lab 1 introduces them to the OpenLANE EDA tools.
+Lab 1 introduces with OpenLANE EDA tools.
 
 Lab 2 demonstrates how to use OpenLANE for floorplanning and placement.
 
@@ -308,6 +308,13 @@ We get- FF ratio in our design is – 0.1084 And FF percentage is – 10.84%
 For more information, look at the results directory in synthesis.
 
 ![6](https://github.com/user-attachments/assets/7ee041c2-d1d9-40ff-90d6-5e34a9c4abb6)
+
+**Lab 2 Steps of run floorplan and placement using OpenLANE EDA tools**
+
+To achieve an error-free floorplanning process, designers need to be aware of specific factors, referred to as switches, that might have a big influence on the floorplan. Aspect ratio and usage factor, for example, are two crucial choices. Before beginning the floorplanning phase, designers must confirm that these criteria meet the project requirements. The file README.md in the openlane configuration displays the different variables of the design flow. The path is shown below:
+
+```/home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/configuration
+
 
 
 
