@@ -463,6 +463,85 @@ Sky130 INVERTER Basic Layout: The source, drain, gate, VDD, and ground terminals
 
 ![WhatsApp Image 2024-11-08 at 22 17 13](https://github.com/user-attachments/assets/95dbce3c-8491-43ec-b29e-2d1958433dcc)
 
+Create STD cell layout: Details to create a std cell layout have mentioned this website here- **(https://github.com/nickson-jose/vsdstdcelldesign?tab=readme-ov-file)**
+
+Extract the spice netlist in Magic- In the tckon window, use the following command:
+
+```
+extract all
+ext2spice cthresh 0 rthresh 0
+ext2spice
+```
+
+![38](https://github.com/user-attachments/assets/4d0db55e-c749-4135-a008-f760a811e3c2)
+
+Now let's open the extracted SPICE file of sky130A inverter:
+
+![39](https://github.com/user-attachments/assets/e354d7a1-21f1-4862-ba7f-c8488e1ea376)
+
+Final Spice Deck: Make the following changes in the 'sky130_inv.spic' file:
+
+![40](https://github.com/user-attachments/assets/4b2324fa-12de-4b8c-9904-f76c0081fad9)
+
+Now to simulate in ngspice, use the following command while in the 'vsdstdcelldesign' directory:
+
+```
+ngspice sky130_inv.spice
+```
+![43](https://github.com/user-attachments/assets/f0cfb4e4-4e30-429e-8a6f-dd9330d020d4)
+
+Now, to open the plot use plot y vs time a in the ngspice terminal
+
+![44](https://github.com/user-attachments/assets/d2c1a8b8-d231-4baf-b845-83d67617a071)
+
+Characterization of inverter:
+
+Rise Time: The time for the output waveforms to transition from 20% to 80% of its maximum value. From plot points: (x0 = 2.18192ns, y0 = 0.66049) to (x0 = 2.24571ns, y0 = 2.64018). Calculated Rise Time = 0.0634 ns
+Fall Time: The time for the output waveform to transition from 80% to 20% of its maximum value. From plot points: (x0 = 4.0525ns, y0 = 2.63976) to (x0 = 4.09516ns, y0 = 0.659249). Calculated Fall Time = 0.0422 ns
+Propagation Delay (Cell Rise Delay): The time for the output to transition 50% in response to a 50% change in the input. From plot points: Input (x0 = 2.15018ns, y0 = 1.65018) to Output (x0 = 2.21088ns, y0 = 1.65). Calculated Propagation Delay = 0.064 ns
+Cell Fall Delay: The delay for the output to transition 50% due to a 50% change at the input. From plot points: (x0 = 4.04997ns, y0 = 1.65) to (x0 = 4.07748ns, y0 = 1.65). Calculated Cell Fall Delay = 0.0277 ns.
+
+DRC Rules: The details about the MAGIC tool and its DRC rules can be seen **http://opencircuitdesign.com/magic/**
+
+We use the following command to download the Lab files used in this tutorial. The current location should be the home directory:
+
+```
+sudo wget http://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
+```
+Once downloaded the zip file we extracted.
+
+![45](https://github.com/user-attachments/assets/190d32ee-58e3-4ff0-a02c-957774f882e3)
+
+Introduction to Magic & Steps to load sky130 tech-rules: Run the command magic -d XR to open the Magic tool. Now open the met3.mag file in magic.
+
+![47](https://github.com/user-attachments/assets/813ecbbd-8331-4da5-80da-8a6d427d4021)
+
+Fixing the error (Poly.9)
+
+![48](https://github.com/user-attachments/assets/8fc5b2e1-1ea1-44e4-8ff7-930240cf8236)
+
+Using the "box" command, measure the distance between the poly resistor and poly when you zoom in on the "Incorrect poly.p" layout. The measurement indicates a 0.210 µm spacing, which is less than the 0.480 µm "poly.9" DRC rule. However, there is no DRC mistake. Now let's fix this issue
+
+![Screenshot 2024-11-08 225535](https://github.com/user-attachments/assets/3584d64e-9eea-413f-80fc-4a5a4c5ecc4a)
+
+
+![Screenshot 2024-11-08 225641](https://github.com/user-attachments/assets/f2cfc294-79b5-49c6-94b5-8f2fec0b3116)
+
+
+![Screenshot 2024-11-08 225722](https://github.com/user-attachments/assets/24ad7eeb-bad2-4af8-ac27-1c031b3fe100)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
