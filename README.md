@@ -243,7 +243,33 @@ Three steps are involved in placement: 1. Global Placemen 2. Legalization 3. Det
 The picorv32a design is represented by the green area in the above diagram. Whereas the red pads are for power, the blue pads are for ground. The pads provide power to the rectangular close-loop rings. The vertical lines that fasten to the rings are called power straps. The conventional cells' ground and power rails are secured by vertical straps. For proper power and ground connection, standard cells must be higher than the rail pitch. This diagram illustrates the power flow from the exterior to the pads, pads to rings, rings to strap/stripe, and strap/stripe to stdcell rows. Routing follows the same three-step process as placement. Nevertheless, the Global and Detail routing phases are slowed significantly by the TritonRoute tools.
 
 **Global Route:** To quickly build a high-level routing solution, the global route creates a routing guide. Cell pins are represented by the boxes that make up the routing guide.
+
 **Detail Route:** The detailed route uses the output of the global route, which includes the routing rules. Detailed routes are performed using TritonRoute. Algorithms are employed to identify the route point with the best overall connectivity.
+
+****Lab 1 introduces with OpenLANE EDA tools:
+
+Useful Linux Command:
+
+pwd: It displays the current working directory and its path.
+cd: Using this command we can move in both ways in the directory tree.
+ls: It lists all the sub-directories and files present in the current directory.
+mkdir: Using this command, we can create a new directory.
+rmdir: Using his command, we can delete an existing directory.
+cp: For copying the file.
+gedit: Open the file with a text editor (gedit).
+help: Using this command we can know the working of any command.
+clear: This command clears the terminal.
+
+Libs file: The abbreviation for a Liberty Timing file is lib. An ASCII representation of the timing and power parameters linked to cells inside a specific technology node's standard cell library is called a LIB file. A lib file is essentially a timing model file that includes the cell's setup and hold time requirements, cell delay, and cell transition time. Therefore, the timing and electrical properties of a cell or macros are found in the lib file. If the foundry offers a standard cell library, the vendor or founder creates the lib file and sends it to the ASIC designer.
+
+LEF file: Because it includes physical abstract information about layers and standard cells/macros, the Library Exchange Format (LEF) file is also known as a physical library. Because it is implemented in ASCII format, humans can read it. Foundries and library providers create these physical libraries. There are two kinds of physical libraries:
+
+i) LEF technology
+ii) Standard cell/macro LEF
+Preparation of Design Step: Use the following command to launch bash while in the openalne directory:
+
+
+
 
 
 
