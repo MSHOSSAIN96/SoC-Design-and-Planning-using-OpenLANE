@@ -412,6 +412,64 @@ magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs
 ![26](https://github.com/user-attachments/assets/85a21f9a-4690-4f73-a870-ac176a2790af)
 
 
+**Lab 3 demonstrates the complexities of fundamental logic gates through inverter characterisation using the Sky130 model files**
+
+Modify while in the flow: Changing while in the open lane enables you to make adjustments without stopping the flow altogether. It is possible to change floorplan variables like IO mode and core utilization. For example, in order to change the layout's IO pin alignment, we must first make sure the pins are present. Go to the directory displayed in the picture below:
+
+```
+/home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/10-08_13-18/results/floorplan
+```
+
+Then use the command to open the ‘.def' file in magic:
+
+```
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def
+```
+![27](https://github.com/user-attachments/assets/d16720db-175d-4b3a-9701-27e5a7c79d96)
+
+Pins are spaced at random, as may be observed. IO Placer (an open-source EDA tool) supports four techniques. Now, open the floorplan and navigate to the following directory if you want it to switch to a different IO pin floorplan.tcl data:
+
+![28](https://github.com/user-attachments/assets/2c0b5eaf-a649-4086-9497-8183a1abeca4)
+
+From here we can see the switching variable FP_IO_MODE = 1, hence pins are randomly equidistant. Now, we run the following command and change the IO placer settings:
+
+```
+set ::env(FP_IO_MODE) 2
+```
+![29](https://github.com/user-attachments/assets/4e9476e0-a603-49ce-bd13-946a98af231d)
+
+Now, we can check the change in the IO placer strategy: We can see that .def file has been updated from the time stamps and date:
+
+![30](https://github.com/user-attachments/assets/f39fb406-75f6-4cf5-b40a-3eb51de954df)
+
+Now, open it on magic
+
+![31](https://github.com/user-attachments/assets/1c6c6ff6-f866-411c-88b2-bc43f24b0a53)
+
+Clone ‘vsdstdcelldesign’ repo from git: The repository "vsdstdcelldesign" contains the .mag file for the inverter and spice models for sky130 nmos/pmos transistors. Git repo link:
+
+```
+git clone https://github.com/nickson-jose/vsdstdcelldesign.git
+```
+
+Now, open the sky130_inv.mag file in magic:
+
+```
+magic -T sky130A.tech sky130_inv.mag &
+```
+![33](https://github.com/user-attachments/assets/0922ad10-4fa5-4e71-af85-8a71f62502c9)
+
+Sky130 INVERTER Basic Layout: The source, drain, gate, VDD, and ground terminals of the inverter opened in the magic tool are shown in Figure below. When polysilicon crosses the ndiffusion region it is termed as 'NMOS' and when it crosses the pdiffusion region it is termed as 'PMOS', the same is verified in the image below:
+
+![WhatsApp Image 2024-11-08 at 22 17 13](https://github.com/user-attachments/assets/95dbce3c-8491-43ec-b29e-2d1958433dcc)
+
+
+
+
+
+
+
+
 
 
 
