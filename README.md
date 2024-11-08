@@ -531,6 +531,197 @@ Using the "box" command, measure the distance between the poly resistor and poly
 ![Screenshot 2024-11-08 225722](https://github.com/user-attachments/assets/24ad7eeb-bad2-4af8-ac27-1c031b3fe100)
 
 
+Go to the drc_tests directory and open the Sky130a.tech file. Look up "poly.9" and make the adjustments depicted in the following pictures. Once the changes are made, save the file.
+
+
+![50](https://github.com/user-attachments/assets/17944646-bbf2-40f9-ab93-9551aa56b748)
+
+
+Reload the sky130A.tech file and re-run the DRC check by running the following commands in tkcon.
+
+
+![Screenshot 2024-11-08 230323](https://github.com/user-attachments/assets/496b4644-1adf-4cb1-bdcc-48d388ff19c3)
+
+
+**Lab 4 Pre-layout timing analysis & emphasizes the significance of a well-designed clock tree**
+
+Commands to open the custom inverter layout
+
+```
+cd Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign
+magic -T sky130A.tech sky130_inv.mag &
+```
+Command for tkcon window:
+
+```
+help grid
+grid 0.46um 0.34um 0.23um 0.17um
+```
+![52](https://github.com/user-attachments/assets/c56f3f97-ff38-4180-99b3-a99b2226abdd)
+
+The whole li1 layer is on the grid layer. The locations of the input and output ports are where the vertical and horizontal tracks converge. This fulfills the first requirement.
+
+![53](https://github.com/user-attachments/assets/f9b7423b-3dfb-449b-803b-a04b8d4664a9)
+
+Additionally, we can observe that the standard cell's width equals the three grid/track boxes. As previously stated, the height and breadth of the standard cell should both be odd multiples of the vertical track pitch and the horizontal track pitch. This fulfills the second requirement.
+
+![Screenshot 2024-11-08 231207](https://github.com/user-attachments/assets/20eec447-ca7e-4175-852f-329c978f714b)
+
+Open the complete layout after saving it with a unique name.
+
+```
+save sky130_cinv.mag
+```
+![54](https://github.com/user-attachments/assets/3ea716d6-d6eb-45b3-8756-692816f5c442)
+
+Generate lef from the layout by command.
+
+```
+lef write
+Let’s open the LEF file
+```
+
+![55](https://github.com/user-attachments/assets/43d43f17-072f-4dfa-b376-f0a8cd14d768)
+
+Next, we plug in the LEF file in the picorv32a design. Introduction to timing libs and steps to include new cells in the synthesis: The Synthesis, Placement, and Route phases are now repeated. Our unique cell is added to the picorv32a Openlane Design Flow for this purpose. We ensure that the PWD we have is
+
+```
+/home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/vsdstdcelldesign. From here, we copy the .lef file using the following commands:
+```
+```
+cp sky130_vsdinv.lef /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src
+```
+For the synthesis step, we need the std cell library files. Therefore we copy the .lib files from the directory vsdstdcelldesign/libs using the following commands:
+
+```
+cp sky130_fd_sc_hd__* /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src
+```
+
+Every standard cell's characterisation data (cell power, cell increase, cell transition, etc.) is contained in the.lib file. Different speeds, temperatures, and voltage values are described for the files sky130_fd_sc_hd__typical.lib, sky130_fd_sc_hd_fast.lib, and sky130_fd_sc_hd__slow.lib. The nmos/pmos transistors in sky130_fd_sc_hd__typical.lib are described at a temperature of 25°C and a voltage of 1.8 volts, meaning they are neither fast nor slow. Our customized cell will be added to all of the typical, slow, and fast libraries.
+
+![56](https://github.com/user-attachments/assets/baf45bc6-c915-496d-98a5-0315e35a3cc3)
+
+![57](https://github.com/user-attachments/assets/5461bf6b-fafd-4d0c-bf60-3595ec5f16eb)
+
+![58](https://github.com/user-attachments/assets/bf0f9363-42e0-4e23-9038-e83353f3ecbf)
+
+Now, we need to modify the config.tcl file: Go to the picorv32a directory and open the file using gedit and we make the following modifications:
+
+![59](https://github.com/user-attachments/assets/9b5b1ce3-fffb-4c1f-b9a6-5f9290ec5be9)
+
+![60](https://github.com/user-attachments/assets/fdde7e02-1181-4a2f-b545-b28faa7abcf7)
+
+Now, launch the docker following the standard procedures as indicated, and include some commands:
+
+```
+./flow.tcl -interactive
+package require openlane 0.9
+#to continue the work in the already made directory in the runs folder
+prep -design picorv32a -tag  18-08_15-37 -overwrite
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+```
+![61](https://github.com/user-attachments/assets/de1bb0c1-72ad-4cbd-ac38-77eacbba7f93)
+
+Now run synthesis by command
+
+```
+run_synthesis
+```
+![63](https://github.com/user-attachments/assets/f0c19312-1d45-4f94-96e0-fb9a7f463c5a)
+
+It is evident from the preceding image that synthesis was effective. 1554 instances of our cinverter are utilized in total. Additionally, we can observe that the overall negative slack is -711.59 and the worst slack is -23.89. 147712.918 is the chip area. At this point, we can attempt a timing-driven synthesis to reduce the slack. To improve the delay, we must trade off the chip area for this. We opened the README.md from the directory and saw the variable ‘SYNTH STRATEGY’ ‘SYNTH BUFFERING’ ‘SYNTH SIZING’ ‘SYNTH DRIVING CELL’. Change the variable to reduce the slack.
+
+```
+# Now once again we have to prep the design to update the variables
+prep -design picorv32a -tag 18-08_15-37  -overwrite
+# Addiitional commands to include newly added lef to openlane flow merged.lef
+set lefs [glob $::env(DESIGN_DIR)/src/*.lef]
+add_lefs -src $lefs
+# Command to display the current value of variable SYNTH_STRATEGY
+echo $::env(SYNTH_STRATEGY)
+# Command to set a new value for SYNTH_STRATEGY
+set ::env(SYNTH_STRATEGY) "DELAY 3"
+# Command to display the current value of variable SYNTH_BUFFERING to check whether it's enabled
+echo $::env(SYNTH_BUFFERING)
+# Command to display the current value of variable SYNTH_SIZING
+echo $::env(SYNTH_SIZING)
+# Command to set a new value for SYNTH_SIZING
+set ::env(SYNTH_SIZING) 1
+# Command to display the current value of variable SYNTH_DRIVING_CELL to check whether it's the proper cell or not
+echo $::env(SYNTH_DRIVING_CELL)
+# Now that the design is prepped and ready, we can run synthesis using the following command
+run_synthesis
+```
+![62](https://github.com/user-attachments/assets/896a60f7-b3ef-47a5-8970-58e7627baf68)
+
+![64](https://github.com/user-attachments/assets/4ac58d96-e712-4549-b3a4-eb8447c49c03)
+
+![65](https://github.com/user-attachments/assets/7f677c62-0053-47eb-920f-24b29a29a10a)
+
+![66](https://github.com/user-attachments/assets/3a4d1b75-3b22-413b-8909-6b3f28f66fa1)
+
+Now that the synthesis phase is over, we use the following command to finish the floorplan:
+
+```
+init_floorplan
+place_io
+tap_decap_or
+```
+
+![67](https://github.com/user-attachments/assets/92023749-0857-448b-9b7e-28a476c1b76c)
+
+After finishing the floorplan stage, we run placement
+
+```
+run_placement
+```
+
+![68](https://github.com/user-attachments/assets/4c0929ba-ca2c-4f22-8782-2a67db38d20a)
+
+![69](https://github.com/user-attachments/assets/a6a1cb75-5bd8-41d5-a6bb-f8caab67a62b)
+
+Now we can see our slack problem is solved. Now, to verify if the standard cell we generated was incorporated into the design or not by magic
+
+```
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
+```
+![70](https://github.com/user-attachments/assets/cb0ed853-6a23-406a-a139-f76e4a8075b0)
+
+Timing analysis with ideal clocks using openSTA: Let's create an STA conf file (pre_sta.config) first in the directory /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane. In this file, we provide the fast and slow corner lib file, an old Verilog file, and an SDC file. After STA a new Verilog file is created. The file is shown below:
+
+![71](https://github.com/user-attachments/assets/d6d603c1-1430-44a5-abe1-4eed0e20d5a1)
+
+my_sdc in the directory sky130_cinv.lef
+
+```
+/home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src
+```
+![Screenshot 2024-11-08 234456](https://github.com/user-attachments/assets/83d1d868-baab-417d-8ab9-4f962c300190)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
