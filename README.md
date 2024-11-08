@@ -39,6 +39,7 @@ The goal of this roadmap is to equip users with the theoretical and practical kn
 
 The following diagram illustrates a series of steps, from the RTL design to generating the GDSII file, which contains the layout information for chip fabrication. Each step is crucial for refining the design towards a manufacturable state:
 1. Starting Points: RTL and PDK
+
 a.RTL (Register Transfer Level): This is the initial stage of the digital design. The RTL describes the circuit behavior and structure using hardware description languages (HDLs) like Verilog or VHDL.
 
 b.PDK (Process Design Kit): The PDK contains the design rules, standard cells, and manufacturing-specific data required to implement the design on a particular semiconductor process. It guides how the design will be physically realized on silicon.
