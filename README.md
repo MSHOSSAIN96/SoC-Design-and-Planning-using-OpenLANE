@@ -250,7 +250,7 @@ The picorv32a design is represented by the green area in the above diagram. Wher
 
 Useful Linux Command:
 
-`pwd: It displays the current working directory and its path.
+```pwd: It displays the current working directory and its path.
 `cd: Using this command we can move in both ways in the directory tree.
 `ls: It lists all the sub-directories and files present in the current directory.
 `mkdir: Using this command, we can create a new directory.
@@ -259,6 +259,14 @@ Useful Linux Command:
 `gedit: Open the file with a text editor (gedit).
 `help: Using this command we can know the working of any command.
 `clear: This command clears the terminal.
+```
+Libs file: The abbreviation for a Liberty Timing file is lib. An ASCII representation of the timing and power parameters linked to cells inside a specific technology node's standard cell library is called a LIB file. A lib file is essentially a timing model file that includes the cell's setup and hold time requirements, cell delay, and cell transition time. Therefore, the timing and electrical properties of a cell or macros are found in the lib file. If the foundry offers a standard cell library, the vendor or founder creates the lib file and sends it to the ASIC designer.
+
+LEF file: Because it includes physical abstract information about layers and standard cells/macros, the Library Exchange Format (LEF) file is also known as a physical library. Because it is implemented in ASCII format, humans can read it. Foundries and library providers create these physical libraries. There are two kinds of physical libraries:
+
+i) LEF technology
+ii) Standard cell/macro LEF
+Preparation of Design Step: Use the following command to launch bash while in the openalne directory:
 
 
 
