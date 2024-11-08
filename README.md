@@ -696,8 +696,47 @@ my_sdc in the directory sky130_cinv.lef
 
 ```
 /home/vsduser/Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/src
+
 ```
-![Screenshot 2024-11-08 234456](https://github.com/user-attachments/assets/83d1d868-baab-417d-8ab9-4f962c300190)
+![72](https://github.com/user-attachments/assets/e3bc8ea2-1a16-47ce-9d62-349e8083db73)
+
+
+now run the static timing analysis using the following command
+
+```
+sta pre_sta.config
+```
+![74](https://github.com/user-attachments/assets/f30b8fd2-63c8-4200-a4c9-4072fbfdb7a0)
+
+Slack does not equal what we obtained during the synthesis stage, as can be seen. Still, we move forward with the CTS and routing.
+
+CTS: TritonCTS is the EDA tool that generates CTS. This tool so far generates the CTS for typical corners of std cells.
+
+![Screenshot 2024-11-08 234944](https://github.com/user-attachments/assets/d694b0cb-c7b6-4f7b-b55c-cdd8bf8ee727)
+
+
+This will swap out the outdated layout for the optimized one. After the update is finished, use the same instructions to go on to the Floorplan stage.
+
+```
+init_floorplan
+place_io
+tap_decap_or
+```
+
+Following the Floorplan's successful completion, we use the following instructions to go on to the placement step: run_placement
+
+
+![Screenshot 2024-11-09 000228](https://github.com/user-attachments/assets/79ef9a65-23de-4434-a1ba-4d6c34ef506a)
+
+
+![Screenshot 2024-11-09 000024](https://github.com/user-attachments/assets/ff9bb5b9-50fc-4f13-9490-6ca42de0db54)
+
+
+
+
+
+
+
 
 
 
