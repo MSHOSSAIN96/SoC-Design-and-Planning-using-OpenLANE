@@ -294,6 +294,22 @@ To perform synthesis on the design, use the following command:
 
 `run_synthesis`
 
+The outcome of synthesis:
+
+![4](https://github.com/user-attachments/assets/4b08cbce-0692-4d84-8582-7821252023b6)
+
+![5](https://github.com/user-attachments/assets/23dac571-92fe-49e1-a3e0-17f42d67efa6)
+
+From the synthesis we get- Number of D-Ff: 1613 Number of cells: 14876 Now, we can calculate the FF (Flip Flop) ratio and FF percentage from the data according to the formula:
+
+Flip Flop Ratio (Number of D-FF) / (Total number of Cells). For FF percentage FF ratio * 100.
+We get- FF ratio in our design is – 0.1084 And FF percentage is – 10.84%
+
+For more information, look at the results directory in synthesis.
+
+![6](https://github.com/user-attachments/assets/7ee041c2-d1d9-40ff-90d6-5e34a9c4abb6)
+
+
 
 
 
