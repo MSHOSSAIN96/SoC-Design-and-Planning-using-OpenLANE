@@ -233,10 +233,17 @@ Library binding and placements: Each component in the netlist, including the AND
 
 Placement: Placement is the procedure by which the tool arranges all of the standard cells found in the netlist in the core region. During placement, the tool also optimizes the design. The tool can also be used to route trails. Placement's primary objective is to optimize timing, area, and power. 2. Reduce traffic and the areas that cause it. 3. Pin density and minimum cell density.
 
-Three steps are involved in placement: 1. Worldwide Positioning 2. Legalization 3. Placement of Details.
+Three steps are involved in placement: 1. Global Placemen 2. Legalization 3. Details Placement
 
 **Routing**
+
 ![F18_Routing](https://github.com/user-attachments/assets/c652af4b-8d8b-4a76-b46e-e39cfbca48a3)
+
+The picorv32a design is represented by the green area in the above diagram. Whereas the red pads are for power, the blue pads are for ground. The pads provide power to the rectangular close-loop rings. The vertical lines that fasten to the rings are called power straps. The conventional cells' ground and power rails are secured by vertical straps. For proper power and ground connection, standard cells must be higher than the rail pitch. This diagram illustrates the power flow from the exterior to the pads, pads to rings, rings to strap/stripe, and strap/stripe to stdcell rows. Routing follows the same three-step process as placement. Nevertheless, the Global and Detail routing phases are slowed significantly by the TritonRoute tools.
+
+**Global Route:** To quickly build a high-level routing solution, the global route creates a routing guide. Cell pins are represented by the boxes that make up the routing guide.
+**Detail Route:** The detailed route uses the output of the global route, which includes the routing rules. Detailed routes are performed using TritonRoute. Algorithms are employed to identify the route point with the best overall connectivity.
+
 
 
 
