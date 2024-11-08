@@ -246,7 +246,7 @@ The picorv32a design is represented by the green area in the above diagram. Wher
 
 **Detail Route:** The detailed route uses the output of the global route, which includes the routing rules. Detailed routes are performed using TritonRoute. Algorithms are employed to identify the route point with the best overall connectivity.
 
-****Lab 1 introduces with OpenLANE EDA tools:
+**Lab 1 introduces with OpenLANE EDA tools:**
 
 Useful Linux Command:
 
@@ -267,8 +267,14 @@ LEF file: Because it includes physical abstract information about layers and sta
 i) LEF technology
 ii) Standard cell/macro LEF
 Preparation of Design Step: Use the following command to launch bash while in the openalne directory:
-
-
+`docker`
+for the step-by-step openlane flow execution enter the following command
+`./flow.tcl -interactive`
+Now, we are in the Openlane. To input the required packages, use the following command:
+`% package require openlane`
+As there are various pre-built designs in the design’s subdirectory, we are choosing the "picorv32a.v" design on which we will implement the RTL to GDS flow. To carry out the synthesis of this design, we first need to set it up using the below command:
+`prep -design picorv32a`
+After preparation is complete, we can see a new directory with the latest date is created within the runs folder in picorv32a directory.
 
 
 
