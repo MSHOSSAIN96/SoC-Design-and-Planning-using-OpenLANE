@@ -723,6 +723,9 @@ place_io
 tap_decap_or
 ```
 
+![75](https://github.com/user-attachments/assets/62f09ff7-44ef-4749-bad7-0b1dea840136)
+
+
 Following the Floorplan's successful completion, we use the following instructions to go on to the placement step: run_placement
 
 
