@@ -867,10 +867,15 @@ Open with magic:
 ![Screenshot 2024-11-09 115300](https://github.com/user-attachments/assets/00bde9c6-40f8-4991-b8c8-3719ad40dd86)
 
 Acknowledgements
+
 **https://github.com/efabless/openlane2**
+
 **https://github.com/nickson-jose/vsdstdcelldesign**
+
 **https://skywater-pdk.readthedocs.io/en/main/index.html**
+
 https://www.vlsisystemdesign.com/nasscom-positions-vsd-at-the-forefront-of-vlsi-skilling-initiatives-in-india/
+
 
 
 
