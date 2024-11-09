@@ -723,16 +723,173 @@ place_io
 tap_decap_or
 ```
 
-![75](https://github.com/user-attachments/assets/62f09ff7-44ef-4749-bad7-0b1dea840136)
-
-
 Following the Floorplan's successful completion, we use the following instructions to go on to the placement step: run_placement
 
 
-![Screenshot 2024-11-09 000228](https://github.com/user-attachments/assets/79ef9a65-23de-4434-a1ba-4d6c34ef506a)
+![Screenshot 2024-11-09 105757](https://github.com/user-attachments/assets/8355937f-a096-4b97-9bd6-c31ee004ab79)
+
+![Screenshot 2024-11-09 105846](https://github.com/user-attachments/assets/ee397963-c30e-42a5-88b6-bf799657e4ba)
 
 
-![Screenshot 2024-11-09 000024](https://github.com/user-attachments/assets/ff9bb5b9-50fc-4f13-9490-6ca42de0db54)
+```
+run_cts
+```
+
+![78](https://github.com/user-attachments/assets/20253fed-4b3b-4373-8dc9-8d5750cbfa70)
+
+The clock buffers are inserted at the cts stage, changing the netlist. We can see that a new.cts file has been created to the synthesis results directory once the cts has finished. Both the prior netlist and the clock buffers created during the CTS stage are contained in the recently added CTS file.
+
+![79](https://github.com/user-attachments/assets/03aa6677-fea1-414c-9bfc-5d1f140de066)
+
+Timing Analysis with real clocks: Open openroad tools by command-
+
+```
+openroad
+```
+We first generate the database (made from lef and def files) in openroad for time analysis. Execute the subsequent commands:
+
+
+![81](https://github.com/user-attachments/assets/8f95d266-c75b-476b-83d6-212b3ccc1cd1)
+
+```
+read_def /openLANE_flow/designs/picorv32a/runs/18-08_15-37/results/cts/picorv32a.cts.def
+```
+
+![Screenshot 2024-11-09 111308](https://github.com/user-attachments/assets/688170f8-ee5e-4952-a5e7-b4ab8b64c39b)
+
+
+```
+write_db pico_cts.db
+```
+
+![82](https://github.com/user-attachments/assets/34b28e78-92f9-4cab-b9ec-7413c7b37132)
+
+```
+read_db pico_cts.db
+read_verilog /openLANE_flow/designs/picorv32a/runs/18-08_15-37/results/synthesis/picorv32a.synthesis_cts.v
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+set_propagated_clock [all_clocks]
+report_checks -path_delay min_max -format full_clock_expanded -digits 4
+```
+
+![Screenshot 2024-11-09 113155](https://github.com/user-attachments/assets/45ee5335-c657-4c1b-a7ef-628212b56128)
+
+The slack in the setup time is satisfied
+
+![83](https://github.com/user-attachments/assets/a52906af-7a6b-4038-9136-e83065b4b12a)
+
+Layers of metal are placed during routing. As a result, the arrival time will rise and we can lower the slack for hold time, but it will decrease for setup time due to the inclusion of the metals' capacitance and resistance. Now, use exit to exit from the openroad. Check the current buffer used in the CTS netlist by commanding:
+
+```
+echo $::env(CTS_CLK_BUFFER_LIST)
+```
+![84](https://github.com/user-attachments/assets/8286e0e9-0c01-4111-891f-cb27e1b25193)
+
+Now remove the clkbuf_1 from the list:
+
+set ::env(CTS_CLK_BUFFER_LIST) [lreplace $::env(CTS_CLK_BUFFER_LIST) 0 0]
+
+run_cts again. It was fail to load, then we use
+
+```
+top
+kill -9 [problem id]
+```
+This is because, as the figure below illustrates, the current DEF value is incorrect. We must utilize the DEF value for placement because buffer 1 has been eliminated; however, following CTS, the DEF value was modified to the CTS DEF value. set def as placement def
+
+```
+set ::env(CURRENT_DEF) /openLANE_flow/designs/picorv32a/runs/18-08_15-37/results/placement/picorv32a.placement.def
+```
+![Screenshot 2024-11-09 114012](https://github.com/user-attachments/assets/d641a242-8b6a-48f1-8a2b-517d7affccdd)
+
+Openlane inserts buffers from left to right and verifies the skew value while constructing the CTS in an attempt to satisfy the skew value. Within the first 10% of the clock period, the skew value is found.
+
+![Screenshot 2024-11-09 114215](https://github.com/user-attachments/assets/39f6aab8-5220-4956-9831-41720ad695d5)
+
+![Screenshot 2024-11-09 114258](https://github.com/user-attachments/assets/8ec127d8-614f-484f-a673-51806bb67327)
+
+
+We now must take the same actions as we did previously on the openroad. visit openroad periodically:
+
+```
+read_lef /openLANE_flow/designs/picorv32a/runs/18-08_15-37/tmp/merged.lef
+read_def /openLANE_flow/designs/picorv32a/runs/18-08_15-37/results/cts/picorv32a.cts.def
+write_db pico_cts1.db
+read_db pico_cts1.db
+read_verilog /openLANE_flow/designs/picorv32a/runs/18-08_15-37/results/synthesis/picorv32a.synthesis_cts.v
+read_liberty $::env(LIB_SYNTH_COMPLETE)
+link_design picorv32a
+read_sdc /openLANE_flow/designs/picorv32a/src/my_base.sdc
+set_propagated_clock [all_clocks]
+report_checks -path_delay min_max -fields {slew trans net cap input_pins} -format full_clock_expanded -digits 4
+```
+
+![Screenshot 2024-11-09 114500](https://github.com/user-attachments/assets/d7cecea4-7093-4832-92dc-fb5d860fb7eb)
+
+![Screenshot 2024-11-09 114546](https://github.com/user-attachments/assets/e3165af2-7a8e-47bb-8b51-acdae891bbc0)
+
+```
+report_clock_skew -hold
+report_clock_skew -setup
+```
+
+
+
+**Lab 5: Final Steps to generate GDSII**
+
+Before starting routing, we can create a power distribution network (PDN) after CTS is available. Let's use the following commands to examine our DEF file as it is now.
+
+```
+echo $::env(CURRENT_DEF)
+```
+![Screenshot 2024-11-09 114822](https://github.com/user-attachments/assets/5ea1ed19-9b08-42a7-81b9-bc4a4d3a270a)
+
+```
+gen_pdn
+```
+
+![Screenshot 2024-11-09 114949](https://github.com/user-attachments/assets/3d7091d4-9e1a-480d-8227-55b51d2164cd)
+
+The PDN output seen above demonstrates how PDN generates the grid and ground straps in addition to writing the LEF file and reading the CTS DEF. Since STD cells are positioned in STD rows as is well known, STD cell power rails are positioned along the rows of STD cells. The height of the stdcell inverter is equal to the pitch of the std cell rails, which is 2.720. As a result, the GND and PWR ports of the standard cell inverter match the power and ground standard cell rails. Run the following command for routing:
+
+```
+run_routing
+```
+
+![Screenshot 2024-11-09 115117](https://github.com/user-attachments/assets/a1387a91-a9d7-4091-8e4c-e7df5523eba6)
+
+Open with magic:
+
+![Screenshot 2024-11-09 115223](https://github.com/user-attachments/assets/c6a7e7da-93f4-4407-855a-f9f24c942836)
+
+
+![Screenshot 2024-11-09 115300](https://github.com/user-attachments/assets/00bde9c6-40f8-4991-b8c8-3719ad40dd86)
+
+Acknowledgements
+**https://github.com/efabless/openlane2**
+**https://github.com/nickson-jose/vsdstdcelldesign**
+**https://skywater-pdk.readthedocs.io/en/main/index.html**
+https://www.vlsisystemdesign.com/nasscom-positions-vsd-at-the-forefront-of-vlsi-skilling-initiatives-in-india/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
